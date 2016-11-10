@@ -1,0 +1,43 @@
+{
+  "name": "cnode-vue-mobile",
+  "description": "基于vue2.0构建的cnodejs mobile SPA",
+  "author": "BubblyPoker",
+  "private": true,
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --open --inline --hot",
+    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
+    "dist": "cross-env NODE_ENV=production gulp"
+  },
+  "dependencies": {
+    "muse-ui": "^2.0.0-alpha.1",
+    "vue": "^2.0.5",
+    "vue-resource": "^1.0.3",
+    "vue-router": "^2.0.1",
+    "vuex": "^2.0.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.5.1",
+    "babel-core": "^6.0.0",
+    "babel-loader": "^6.0.0",
+    "babel-plugin-component": "^0.5.0",
+    "babel-preset-es2015": "^6.0.0",
+    "clean-webpack-plugin": "^0.1.13",
+    "cross-env": "^3.0.0",
+    "css-loader": "^0.25.0",
+    "del": "^2.2.2",
+    "extract-text-webpack-plugin": "^2.0.0-beta.4",
+    "file-loader": "^0.9.0",
+    "gulp": "^3.9.1",
+    "gulp-minify-css": "^1.2.4",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^2.0.0",
+    "html-webpack-plugin": "^2.24.0",
+    "lodash": "^4.16.4",
+    "style-loader": "^0.13.1",
+    "vue-loader": "^9.5.3",
+    "vue-template-compiler": "^2.0.3",
+    "webpack": "2.1.0-beta.22",
+    "webpack-dev-server": "^2.1.0-beta.0",
+    "webpack-zepto": "0.0.1"
+  }
+}
