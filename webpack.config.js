@@ -20,7 +20,7 @@ module.exports = {
     debug: true,
     entry: {
         main: "./src/main.js",
-        common: ["webpack-zepto", "vue", "vue-router", "vuex"]
+        common: ["webpack-zepto", "vue", "muse-ui"]
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -130,9 +130,9 @@ if (isProduction) {
             }
         }),
         //将上面生成的js和css的引用追加到./src/html-tpl/tpl.html中，并重新生成index.html
-        new HtmlWebpackPlugin({
-            filename: "../index.html",
-            template: "./src/html-tpl/tpl.html"
-        })
+        // new HtmlWebpackPlugin({
+        //     filename: "../index.html",
+        //     template: "./src/html-tpl/tpl.html"
+        // })
     ])
 }
