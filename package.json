@@ -9,14 +9,14 @@
     "dist": "cross-env NODE_ENV=production gulp"
   },
   "dependencies": {
-    "muse-ui": "^2.0.0-alpha.1",
+    "muse-ui": "^2.0.0-alpha.2",
     "vue": "^2.0.5",
     "vue-resource": "^1.0.3",
     "vue-router": "^2.0.1",
     "vuex": "^2.0.0"
   },
   "devDependencies": {
-    "autoprefixer": "^6.5.1",
+    "autoprefixer-loader": "^3.2.0",
     "babel-core": "^6.0.0",
     "babel-loader": "^6.0.0",
     "babel-plugin-component": "^0.5.0",

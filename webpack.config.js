@@ -34,14 +34,7 @@ module.exports = {
     module: {
         loaders: [{
             test: /\.vue$/,
-            loader: 'vue-loader',
-            options: {
-                postcss: [
-                  require('autoprefixer')({
-                    browsers: ['last 3 versions']
-                  })
-                ]
-            }
+            loader: 'vue-loader'
         }, {
             test: /\.js$/,
             loader: 'babel',
@@ -50,7 +43,7 @@ module.exports = {
             test: /\.css$/,
             loader: ExtracTextPlugin.extract({
                 fallbackLoader: "style-loader",
-                loader: "css-loader?sourceMap"
+                loader: "css-loader?sourceMap!autoprefixer"
             })
         }, {
             test: /\.(sass|scss)$/,
@@ -74,6 +67,11 @@ module.exports = {
                 name: "md/[name].[ext]?[hash]"
             }
         }]
+    },
+    vue: {
+        loaders: {
+            css: 'style!css!autoprefixer',
+        }
     },
     resolve: {
         extension: ["", ".js"]
@@ -115,9 +113,9 @@ if (isProduction) {
     module.exports.devtool = '#source-map'
         // http://vue-loader.vuejs.org/en/workflow/production.html
     module.exports.plugins = (module.exports.plugins || []).concat([
-        new CleanWebpackPlugin(["./dist"], {
-            "verbose": true, //log到console
-        }),
+        // new CleanWebpackPlugin(["./dist"], {
+        //     "verbose": true, //log到console
+        // }),
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: '"production"'

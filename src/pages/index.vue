@@ -2,7 +2,7 @@
     <div id="container">
         <router-view></router-view>
         <footer id="footer">
-            <mu-bottom-nav :value="bottomNav" shift @change="handleChange">
+            <mu-bottom-nav :value="curNav" shift @change="handleChange">
                 <mu-bottom-nav-item value="home" title="首页" icon="home"/>
                 <mu-bottom-nav-item value="message" title="消息" icon="message"/>
                 <mu-bottom-nav-item value="me" title="我" icon="account_circle"/>
@@ -16,7 +16,15 @@ export default {
     name: "index",
     data() {
         return {
-            bottomNav: 'home',
+            curNav: 'home',
+            homeTab: "all"
+        }
+    },
+    watch: {
+        "$route" (to, from){
+            if (from.name === "home") {
+                this.homeTab = from.query.tab;
+            }
         }
     },
     methods: {
@@ -24,10 +32,19 @@ export default {
             if(!val){
                 val = "home";
             }
-            this.bottomNav = val;
-            this.$router.push({
-                name: val
-            })
+            this.curNav = val;
+            if(val === "home"){
+                this.$router.push({
+                    name: val,
+                    query: {
+                        tab: this.homeTab || "all"
+                    }
+                })
+            }else {
+                this.$router.push({
+                    name: val
+                })
+            }
         }
     }
 }

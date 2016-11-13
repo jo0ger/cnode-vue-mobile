@@ -1,21 +1,139 @@
 <template lang="html">
-    <li class="topic-item">
-
-    </li>
+    <mu-list-item  class="topic-item">
+        <h3 :class="['topic-title', getTypeClass(item.top, item.good, item.tab)]" :title="getArticleType(item.top, item.good, item.tab)" v-text="item.title"></h3>
+        <div class="topic-main">
+            <mu-avatar class="topic-author-avatar" :src="item.author.avatar_url"/>
+            <div class="topic-content">
+                <p>
+                    <span class="topic-author-name" v-text="item.author.loginname"></span>
+                </p>
+                <p>
+                    <time class="topic-time">{{ item.create_at | getDateFromNow }}</time>
+                    <section class="topic-count">
+                        <span class="topic-visit" v-text="item.reply_count || 0"></span>
+                        <span class="topic-comment" v-text="item.visit_count"></span>
+                    </section>
+                </p>
+            </div>
+        </div>
+    </mu-list-item>
 </template>
 
 <script>
 export default {
     name: "topic-item",
-    data() {
-        return {}
+    props: {
+        item: {
+            require: true,
+            default: {},
+            type: Object
+        }
     },
-    computed: {},
-    mounted() {},
-    methods: {},
-    components: {}
+    methods: {
+        getTypeClass(top, good, tab) {
+            if (top) {
+                return "top";
+            } else if (good) {
+                return "good";
+            } else if (tab == "ask") {
+                return "ask";
+            } else if (tab == "job") {
+                return "job";
+            } else if (tab == "share") {
+                return "share";
+            } else if (!top && !good && !tab || (this.$route.query.tab === tab)) {
+                return "hidden";
+            } else {
+                return "";
+            }
+        },
+        getArticleType (top, good, tab) {
+          if(top){
+            return "置顶";
+          }else if(good){
+            return "精华";
+          }else if(tab === "ask"){
+            return "问答";
+          }else if(tab === "share"){
+            return "分享";
+          }else if(tab === "job"){
+            return "招聘";
+          }else{
+            return "";
+          }
+        }
+    }
 }
 </script>
 
-<style lang="css">
+<style lang="css" scoped>
+.topic-item{
+    padding: 0;
+}
+.topic-title{
+    color: #2c3e50;
+    font-size: 16px;
+    line-height: 1.5;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.topic-title::before{
+    content: attr(title);
+    position: relative;
+    background-color: #f44336;
+    color: #fff;
+    padding: 5px 6px;
+    font-size: 10px;
+    font-weight: 400;
+    margin-right: 10px;
+}
+.topic-title.good::before{
+    background-color: #ffc107;
+}
+.topic-title.share::before{
+    background-color: #2196f3;
+}
+.topic-title.ask::before{
+    background-color: #673ab7;
+}
+.topic-title.job::before{
+    background-color: #795548;
+}
+.topic-author-avatar{
+    display: block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid #F3F3F3;
+    margin-right: 10px;
+}
+.topic-main{
+    display: flex;
+    padding-top: 10px;
+}
+.topic-content{
+    flex: 1;
+}
+.topic-content > p{
+    font-size: 12px;
+    color: #34495e;
+    padding: 3px 0;
+}
+.topic-content > p:last-child{
+}
+.topic-time{
+
+}
+.topic-count{
+    position: relative;
+    float: right;
+    right: 10px;
+    display: flex;
+    width: 30%;
+}
+.topic-count span{
+    flex: 1;
+    text-align: center;
+}
 </style>
