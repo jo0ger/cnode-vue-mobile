@@ -99,6 +99,7 @@ module.exports = {
         publicPath: "/dist/",
         historyApiFallback: true,
         noInfo: true,
+        host:'0.0.0.0',
         proxy: {
             "/api/*": {
                 target: 'https://cnodejs.org',

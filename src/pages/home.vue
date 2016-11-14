@@ -24,7 +24,7 @@ import cvList from "../components/list.vue"
 export default {
     name: "home",
     data() {
-        let initTab = "all";
+        // let initTab = "all";
         //     tabMap = ["all", "good", "share", "ask", "job"],
         //     queryData = {
         //         page: 1,
@@ -56,11 +56,29 @@ export default {
         }
     },
     created () {
-        this.curTab = this.$route.query.tab;
+        this.curTab = this.$route.query.tab || "";
     },
     watch: {
-        "curTab" (){
-            this.refresh();
+        "curTab" (to, from){
+            let nextList = this.list[this.curTab].data,
+                topic_container = document.getElementById('topics-container'),
+                lastScrollTop = topic_container.scrollTop || 0;
+            if(from){
+                this.$store.commit("setListValue", {
+                    tab: from,
+                    list: {
+                        scrollTop: lastScrollTop
+                    }
+                })
+            }
+
+            if(to){
+                $(topic_container).scrollTop(this.list[this.curTab].scrollTop || 0);
+            }
+
+            if(!nextList || !nextList.length){
+                this.loadMore();
+            }
         }
     },
     methods: {
@@ -77,7 +95,6 @@ export default {
             })
         },
         fetch (refresh){
-            this.refreshing = true;
             this.$http.get("https://cnodejs.org/api/v1/topics", {
                 params: this.list[this.curTab].queryData
             }).then((res) => {
@@ -97,24 +114,24 @@ export default {
                 if (refresh) {
                     this.$store.commit("setListValue", {
                         tab: this.curTab,
-                        value: {
+                        list: {
                             data: data.data,
                             queryData: {
                                 page: 1,
                                 limit: 20,
-                                mdrender: true
+                                tab: this.curTab
                             },
                         }
                     });
                 }else {
                     this.$store.commit("setListValue", {
                         tab: this.curTab,
-                        value: {
+                        list: {
                             data: this.curList.concat(data.data),
                             queryData: {
-                                page: this.curList.queryData.page ++,
+                                page: this.list[this.curTab].queryData.page ++,
                                 limit: 20,
-                                mdrender: true
+                                tab: this.curTab
                             },
                         }
                     });
@@ -127,6 +144,7 @@ export default {
             this.refreshing = true;
             this.list[this.curTab].queryData.page = 1;
             this.fetch(true);
+
         },
         loadMore (){
             this.loadmoring = true;

@@ -32,6 +32,9 @@ const routes = [
                 name: "message",
                 component (resolve) {
                     require(["../pages/message.vue"], resolve);
+                },
+                meta: {
+                    auth: true
                 }
             },{
                 path: "me",
@@ -39,14 +42,42 @@ const routes = [
                 component (resolve) {
                     require(["../pages/me.vue"], resolve);
                 }
+            },{
+                path: "about",
+                name: "about",
+                component (resolve) {
+                    require(["../pages/about.vue"], resolve);
+                }
             }
         ]
+    },{
+        path: "/login",
+        name: "login",
+        component (resolve){
+            require(["../pages/login.vue"], resolve);
+        }
     }
 
 ];
 
-export default new VueRouter({
+const router = new VueRouter({
     mode: "history",
     base: __dirname,
     routes: routes
 });
+
+router.beforeEach((to, from, next) => {
+    if(to.matched.some(record => record.meta.auth)){
+        console.log(from);
+        next({
+            name: "login",
+            query: {
+                redirect: encodeURIComponent(from.fullPath)
+            }
+        })
+    }else{
+        next();
+    }
+});
+
+export default router;

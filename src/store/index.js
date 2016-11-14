@@ -1,3 +1,5 @@
+"use strict";
+
 import Vue from "vue";
 import Vuex from "vuex";
 
@@ -16,16 +18,16 @@ const store = new Vuex.Store({
         list: (function() {
             let tabMap = ["all", "good", "share", "ask", "job"],
                 queryData = {
-                    page: 1,
-                    limit: 20,
-                    mdrender: true
+                    page: 0,
+                    limit: 20
                 },
                 list = {};
 
-            tabMap.map(function(item) {
+            tabMap.forEach(function(item) {
                 list[item] = {
                     data: [],
-                    queryData: Object.assign({}, queryData)
+                    queryData: Object.assign({}, queryData),
+                    scrollTop: 0
                 };
                 list[item].queryData.tab = item;
             })
@@ -61,7 +63,11 @@ const store = new Vuex.Store({
         },
         setListValue: (state, obj) => {
             if (obj && obj.tab) {
-                state.list[obj.key] = obj.value;
+                for (var key in obj.list) {
+                    if (obj.list.hasOwnProperty(key)) {
+                        state.list[obj.tab][key] = obj.list[key];
+                    }
+                }
             }
         }
     },
@@ -77,7 +83,7 @@ const store = new Vuex.Store({
         clearUserInfo: ({
             commit
         }) => {
-            return new Promise(function(resolve, reject) {
+            return new Promise((resolve, reject) => {
                 commit("clearUserInfo");
                 resolve();
             });

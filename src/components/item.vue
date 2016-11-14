@@ -1,5 +1,5 @@
 <template lang="html">
-    <mu-list-item  class="topic-item">
+    <mu-list-item  class="topic-item" @click="click" :disableRipple="!ripple">
         <h3 :class="['topic-title', getTypeClass(item.top, item.good, item.tab)]" :title="getArticleType(item.top, item.good, item.tab)" v-text="item.title"></h3>
         <div class="topic-main">
             <mu-avatar class="topic-author-avatar" :src="item.author.avatar_url"/>
@@ -10,8 +10,8 @@
                 <p>
                     <time class="topic-time">{{ item.create_at | getDateFromNow }}</time>
                     <section class="topic-count">
-                        <span class="topic-visit" v-text="item.reply_count || 0"></span>
-                        <span class="topic-comment" v-text="item.visit_count"></span>
+                        <span class="topic-comment"><i class="material-icons">question_answer</i>{{item.reply_count}}</span>
+                        <span class="topic-visit"><i class="material-icons">visibility</i>{{item.visit_count}}</span>
                     </section>
                 </p>
             </div>
@@ -27,6 +27,16 @@ export default {
             require: true,
             default: {},
             type: Object
+        },
+        click: {
+            require: false,
+            default (){},
+            type: Function
+        },
+        ripple: {
+            require: false,
+            default: false,
+            type: Boolean
         }
     },
     methods: {
@@ -122,18 +132,19 @@ export default {
 }
 .topic-content > p:last-child{
 }
-.topic-time{
-
-}
 .topic-count{
     position: relative;
     float: right;
     right: 10px;
-    display: flex;
-    width: 30%;
 }
 .topic-count span{
     flex: 1;
     text-align: center;
+    margin-left: 10px;
+}
+.topic-count span i{
+    font-size: 12px;
+    vertical-align: middle;
+    margin-right: 5px;
 }
 </style>

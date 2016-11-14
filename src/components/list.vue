@@ -1,9 +1,9 @@
 <template lang="html">
     <div id="topics-container">
-        <mu-refresh-control :refreshing="refreshing" :trigger="container" @refresh="refresh"/>
+        <mu-refresh-control id="refresh" :refreshing="refreshing" :trigger="container" @refresh="refresh"/>
         <mu-list id="topics">
             <template v-for="item in list">
-                <cvItem :item="item"></cvItem>
+                <cvItem :item="item" :click="goTopic"></cvItem>
                 <mu-divider/>
             </template>
         </mu-list>
@@ -55,6 +55,9 @@ export default {
         this.container = this.$el;
     },
     methods: {
+        goTopic () {
+            console.log(111);
+        },
         loadmore() {
             this.loadMore.call(this);
         }
@@ -68,6 +71,9 @@ export default {
 <style lang="css" scoped>
 #topics-container{
     height: 100%;
-    overflow-y: scroll;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    position: relative;
+    user-select: none;
 }
 </style>
