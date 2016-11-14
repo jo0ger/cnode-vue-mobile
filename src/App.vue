@@ -5,6 +5,10 @@
 </template>
 
 <script>
+"use strict";
+
+import "./assets/css/custom.css";
+
 export default {
   name: 'app',
   data (){
@@ -13,7 +17,12 @@ export default {
       }
   },
   methods: {
-    
+
   }
 }
 </script>
+<style lang="css" scoped>
+html, body{
+    height: 100%;
+}
+</style>

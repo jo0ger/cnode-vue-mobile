@@ -13,7 +13,7 @@
                     v-model="token"
                     labelFloat
                     fullWidth></mu-text-field>
-                <mu-checkbox name="auto" nativeValue="自动登录" label="自动登录"/> <br/>
+                <mu-checkbox name="auto" nativeValue="自动登录" label="自动登录" v-model="autoLogin"/> <br/>
                 <mu-raised-button :label="title" fullWidth secondary class="login-btn" @click="login"/>
                 <mu-raised-button label="扫码登录" fullWidth backgroundColor="#a4c639" class="login-btn"/>
             </mu-content-block>
@@ -29,7 +29,8 @@ export default {
         return {
             title: "登录",
             redirect: "",
-            token: ""
+            token: "",
+            autoLogin: true
         };
     },
     computed: {},
@@ -39,20 +40,66 @@ export default {
     },
     methods: {
         login (){
-            console.log(this.token);
-            this.$message({
-                message: "操作成功",
-                type: "success",
-            }).show();
+            let token = this.token.trim();
+            if(!token){
+                this.$message({
+                    message: "请输入token"
+                }).show();
+                return;
+            }
+            //for example: e8a451a0-01df-41c9-8b4b-51516e3f3648
+            this.$http.post("https://cnodejs.org/api/v1/accesstoken", {
+                accesstoken: token
+            }).then((res) => {
+                console.log(res);
+                let data = res.body;
+                if(!data || !data.success){
+                    this.errorHandle();
+                    return;
+                }
+                this.renderData(data);
+            }, (err) => {
+                this.errorHandle();
+            });
+        },
+        renderData (data){
+            let user = {
+                id: data.id,
+                loginname: data.loginname,
+                avatar: data.avatar_url,
+                accesstoken: this.token,
+                score: 0,
+                message: 0
+            };
+            if(this.autoLogin){
+                //由于vuex在页面刷新时会把state清空（什么鬼呀）
+                //所以此处得把user信息存入localStorage
+                Object.keys(user).forEach(v => {
+                    localStorage[v] = user[v];
+                });
+            }
+            this.$store.dispatch("setUserInfo", user).then(() => {
+                let self = this;
+                self.$message({
+                    message: "登录成功",
+                    onClose() {
+                        this.back();
+                    }
+                }).show();
+            });
         },
         back (){
-            let red = decodeURIComponent(this.redirect);
-            if(red){
-                this.$router.replace(red);
+            let redirect = decodeURIComponent(this.redirect);
+            if(redirect){
+                this.$router.replace(redirect);
             }
+        },
+        errorHandle (){
+            this.$message({
+                message: "登录出错"
+            }).show();
         }
-    },
-    components: {}
+    }
 }
 </script>
 

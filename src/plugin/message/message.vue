@@ -16,8 +16,9 @@ export default {
         return {
             show: false,
             message: "操作成功",
-            icon: "",
-            duration: 2500
+            icon: "done",
+            duration: 2500,
+            onClose: function (){}
         }
     },
     mounted() {
@@ -34,6 +35,10 @@ export default {
         close() {
             this.$el.addEventListener("transitionend", this.destroy)
             this.show = false;
+            let onClose = this.onClose;
+            if(onClose && typeof onClose === "function"){
+                onClose();
+            }
         },
         destroy() {
             this.$el.parentNode.removeChild(this.$el);

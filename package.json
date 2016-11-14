@@ -33,6 +33,7 @@
     "gulp-uglify": "^2.0.0",
     "html-webpack-plugin": "^2.24.0",
     "lodash": "^4.16.4",
+    "raw-loader": "^0.5.1",
     "style-loader": "^0.13.1",
     "vue-loader": "^9.5.3",
     "vue-template-compiler": "^2.0.3",

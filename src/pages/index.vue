@@ -5,7 +5,7 @@
             <mu-bottom-nav :value="curNav" @change="handleChange">
                 <mu-bottom-nav-item value="home" title="首页" icon="home"/>
                 <mu-bottom-nav-item value="message" title="消息" icon="message"/>
-                <mu-bottom-nav-item value="me" :title="title[curTitle].me" icon="supervisor_account"/>
+                <mu-bottom-nav-item value="setup" :title="title[curTitle].setup" icon="supervisor_account"/>
             </mu-bottom-nav>
         </footer>
     </div>
@@ -21,10 +21,10 @@ export default {
             curTitle: "noAccessTitle",
             title: {
                 noAccessTitle: {
-                    me: "未登录"
+                    setup: "未登录"
                 },
                 accessTitle: {
-                    me: "我的"
+                    setup: "我的"
                 }
             }
         }

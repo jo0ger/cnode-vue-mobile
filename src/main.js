@@ -5,7 +5,7 @@ import VueResource from "vue-resource"
 import App from './App.vue'
 import MuseUI from 'muse-ui'
 import "muse-ui/dist/muse-ui.css"
-import 'muse-ui/dist/theme-carbon.css'
+import 'muse-ui/dist/theme-default.css'
 import router from './router'
 import store from './store'
 import filters from './filter'

@@ -12,8 +12,8 @@ const store = new Vuex.Store({
             loginname: localStorage.loginname || "",
             avatar: localStorage.avatar || "",
             accesstoken: localStorage.accesstoken || "",
-            score: localStorage.score || null,
-            message: localStorage.message || null
+            score: localStorage.score || 0,
+            message: localStorage.message || 0
         },
         list: (function() {
             let tabMap = ["all", "good", "share", "ask", "job"],
@@ -33,6 +33,16 @@ const store = new Vuex.Store({
             })
             return list
         })(),
+        setup: {
+            themes: {
+                "default_": true,
+                "carbon": false,
+                "teal": false,
+                "dark": false
+            },
+            saveFlow: false,
+            summary: false,
+        }
     },
     getters: {
         getUserInfo: state => {
@@ -40,6 +50,9 @@ const store = new Vuex.Store({
         },
         getList: state => {
             return state.list || {};
+        },
+        getSetup: state => {
+            return state.setup || {};
         }
     },
     mutations: {
@@ -68,6 +81,11 @@ const store = new Vuex.Store({
                         state.list[obj.tab][key] = obj.list[key];
                     }
                 }
+            }
+        },
+        setSetupValue: (state, obj) => {
+            if (obj && obj.key) {
+                state.setup[obj.key] = obj.value;
             }
         }
     },
