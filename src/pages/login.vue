@@ -2,7 +2,7 @@
     <div id="container">
         <header class="login-title">
             <mu-appbar :title="title">
-                <mu-icon-button icon="keyboard_arrow_left" slot="left" @click="back" />
+                <mu-icon-button icon="keyboard_arrow_left" slot="left" @click="goBack" />
             </mu-appbar>
         </header>
         <main class="login-container">
@@ -28,18 +28,13 @@ export default {
     data() {
         return {
             title: "登录",
-            back: "",
             to: "",
             token: "",
             autoLogin: true
         };
     },
-    computed: {},
     mounted() {
-        console.log(this.$route.query);
-        let back = this.$route.query.back || "",
-            to = this.$route.query.to || "";
-        this.back = back;
+        let to = this.$route.query.to || "";
         this.to = to;
     },
     methods: {
@@ -87,22 +82,24 @@ export default {
                     message: "登录成功",
                     onClose() {
                         let to = self.to;
-                        if(to.matched.some(red => red.name === "index")){
-                            sessionStorage.setItem("curNav", to.name);
-                        }
                         if(to){
+                            let nextCurNav = sessionStorage.getItem("nextCurNav");
+                            if(nextCurNav){
+                                sessionStorage.setItem("curNav", nextCurNav);
+                                sessionStorage.removeItem("nextCurNav");
+                            }
                             self.$router.replace(to);
                         }
                     }
                 }).show();
             });
         },
-        back (){
-            console.log(this.back);
-            let back = decodeURIComponent(this.back);
-            if(back){
-                this.$router.replace(back);
+        goBack (){
+            let nextCurNav = sessionStorage.getItem("nextCurNav");
+            if(nextCurNav){
+                sessionStorage.removeItem("nextCurNav");
             }
+            this.$router.back();
         },
         errorHandle (){
             this.$message({

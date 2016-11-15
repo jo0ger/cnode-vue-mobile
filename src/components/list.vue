@@ -3,7 +3,7 @@
         <mu-refresh-control id="refresh" :refreshing="refreshing" :trigger="container" @refresh="refresh"/>
         <mu-list id="topics">
             <template v-for="item in list">
-                <cvItem :item="item" :click="goTopic"></cvItem>
+                <cvItem :item="item" :click="goTopic(item.id)" :avatarClick="goUser(item.author.loginname)"></cvItem>
                 <mu-divider/>
             </template>
         </mu-list>
@@ -55,8 +55,29 @@ export default {
         this.container = this.$el;
     },
     methods: {
-        goTopic () {
-            console.log(111);
+        goTopic (topicId) {
+            let self = this;
+            return function(){
+                if(topicId){
+                    self.$router.push({
+                        name: "topic",
+                        params: {
+                            id: topicId
+                        }
+                    });
+                }
+            };
+        },
+        goUser (name){
+            let self = this;
+            return function(e){
+                self.$router.push({
+                    name: "user",
+                    params: {
+                        name: name
+                    }
+                })
+            };
         },
         loadmore() {
             this.loadMore.call(this);

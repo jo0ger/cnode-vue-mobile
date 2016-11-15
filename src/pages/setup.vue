@@ -2,7 +2,7 @@
     <div id="container">
         <main class="me-container">
             <mu-list>
-                <mu-list-item :title="user.loginname" :describeText="isLogin && ('积分：' + (user.score || 0)) || ''" :disableRipple="!isLogin">
+                <mu-list-item :title="user.loginname" :disableRipple="!isLogin" @click="goUser">
                   <mu-avatar :icon="!isLogin && 'face' || ''" :src="user.avatar" slot="leftAvatar"/>
                   <mu-raised-button label="登录" class="loginBtn" v-if="!isLogin" @click="goLogin" fullWidth/>
                   <mu-icon value="keyboard_arrow_right" slot="right" v-if="isLogin"></mu-icon>
@@ -31,6 +31,12 @@
                 </mu-list-item>
                 <mu-list-item disabledRipple @click="handleThemeSelect('teal')" title="Teal">
                     <mu-radio name="group" nativeValue="teal" v-model="theme" slot="right" @change="changeTheme"/>
+                </mu-list-item>
+            </mu-list>
+            <mu-divider />
+            <mu-list>
+                <mu-list-item disabledRipple @click="goAbout" title="关于">
+                    <mu-icon value="keyboard_arrow_right" slot="right"></mu-icon>
                 </mu-list-item>
             </mu-list>
             <mu-divider />
@@ -95,7 +101,24 @@ export default {
     },
     methods: {
         goLogin (){
-
+            this.$router.push({
+                name: "login",
+                query: {
+                    to: this.$route.fullPath
+                }
+            })
+        },
+        goUser (){
+            let name = this.user.loginname;
+            if(!name){
+                return;
+            }
+            this.$router.push({
+                name: "user",
+                params: {
+                    name: name
+                }
+            });
         },
         handleToggle(key) {
             this[key] = !this[key]
@@ -131,6 +154,11 @@ export default {
             this.$store.commit("setSetupValue", {
                 key: "themes",
                 value: themes
+            });
+        },
+        goAbout (){
+            this.$router.push({
+                name: "about"
             });
         },
         //退出

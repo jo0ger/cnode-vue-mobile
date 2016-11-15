@@ -4,13 +4,14 @@
 
 <script>
 export default {
-  data () {
-    return {}
-  },
-  computed: {},
-  mounted () {},
-  methods: {},
-  components: {}
+    name: "topic",
+    data() {
+        return {}
+    },
+    computed: {},
+    mounted() {},
+    methods: {},
+    components: {}
 }
 </script>
 

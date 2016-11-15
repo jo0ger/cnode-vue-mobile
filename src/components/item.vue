@@ -1,8 +1,8 @@
 <template lang="html">
-    <mu-list-item  class="topic-item" @click="click" :disableRipple="!ripple">
+    <mu-list-item  class="topic-item" @click.stop.prevent="click" :disableRipple="!ripple">
         <h3 :class="['topic-title', getTypeClass(item.top, item.good, item.tab)]" :title="getArticleType(item.top, item.good, item.tab)" v-text="item.title"></h3>
         <div class="topic-main">
-            <mu-avatar class="topic-author-avatar" :src="item.author.avatar_url"/>
+            <mu-avatar class="topic-author-avatar" :src="item.author.avatar_url" @click.native.stop.prevent="avatarClick($event)"/>
             <div class="topic-content">
                 <p>
                     <span class="topic-author-name" v-text="item.author.loginname"></span>
@@ -29,6 +29,11 @@ export default {
             type: Object
         },
         click: {
+            require: false,
+            default (){},
+            type: Function
+        },
+        avatarClick: {
             require: false,
             default (){},
             type: Function
@@ -94,21 +99,21 @@ export default {
     background-color: #f44336;
     color: #fff;
     padding: 5px 6px;
-    font-size: 10px;
+    font-size: 12px;
     font-weight: 400;
     margin-right: 10px;
 }
 .topic-title.good::before{
-    background-color: #ffc107;
+    background-color: #ff6d00;
 }
 .topic-title.share::before{
     background-color: #2196f3;
 }
 .topic-title.ask::before{
-    background-color: #673ab7;
+    background-color: #9c27b0;
 }
 .topic-title.job::before{
-    background-color: #795548;
+    background-color: #00bfa5;
 }
 .topic-author-avatar{
     display: block;
@@ -131,6 +136,9 @@ export default {
     padding: 3px 0;
 }
 .topic-content > p:last-child{
+}
+.topic-content span, .topic-content time{
+    color: rgba(0, 0, 0, 0.4);
 }
 .topic-count{
     position: relative;

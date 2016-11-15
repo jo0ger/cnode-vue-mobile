@@ -2,6 +2,7 @@
     <div id="container">
         <router-view></router-view>
         <footer id="footer">
+            <mu-divider />
             <mu-bottom-nav :value="curNav" @change="handleChange">
                 <mu-bottom-nav-item value="home" title="首页" icon="home"/>
                 <mu-bottom-nav-item value="message" title="消息" icon="message"/>
@@ -79,7 +80,6 @@ export default {
     position: fixed;
     width: 100%;
     bottom: 0;
-    border-top: 1px solid #eee;
 }
 .message-badge{
     position: absolute;

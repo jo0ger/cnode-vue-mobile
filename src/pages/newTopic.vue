@@ -4,7 +4,7 @@
 
 <script>
 export default {
-    name: "about",
+    name: "newTopic",
     data() {
         return {}
     },

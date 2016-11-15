@@ -10,7 +10,7 @@
             </mu-tabs>
         </header>
         <main id="main-content">
-            <cv-list :list="curList" :refreshing="refreshing" :loadmoring="loadmoring" :refresh="refresh" :loadMore="loadMore"></cv-list>
+            <cv-list class="topic-list" :list="curList" :refreshing="refreshing" :loadmoring="loadmoring" :refresh="refresh" :loadMore="loadMore"></cv-list>
         </main>
         <mu-float-button icon="add" id="new-topic" @click="newTopic" mini/>
     </section>
@@ -24,22 +24,6 @@ import cvList from "../components/list.vue"
 export default {
     name: "home",
     data() {
-        // let initTab = "all";
-        //     tabMap = ["all", "good", "share", "ask", "job"],
-        //     queryData = {
-        //         page: 1,
-        //         limit: 20,
-        //         mdrender: true
-        //     },
-        //     list = {};
-        //
-        // tabMap.map(function(item){
-        //     list[item] = {
-        //         data: [],
-        //         queryData: Object.assign({}, queryData)
-        //     };
-        //     list[item].queryData.tab = item;
-        // })
         return {
             curTab: "",
             curList: [],
@@ -81,6 +65,23 @@ export default {
             }
         }
     },
+    mounted (){
+        let topic_container = document.getElementById('topics-container');
+        $(topic_container).scrollTop(this.list[this.curTab].scrollTop || 0);
+    },
+    beforeRouteLeave (to, from, next){
+        let topic_container = document.getElementById('topics-container'),
+            lastScrollTop = topic_container.scrollTop || 0;
+        if(from){
+            this.$store.commit("setListValue", {
+                tab: from.query.tab,
+                list: {
+                    scrollTop: lastScrollTop
+                }
+            })
+        }
+        next();
+    },
     methods: {
         handleTabChange (val){
             if(!val){
@@ -105,12 +106,6 @@ export default {
                 }
                 this.refreshing = false;
                 this.loadmoring = false;
-                // if(refresh){
-                //     this.list[this.curTab].data = data.data;
-                // }else {
-                //     this.list[this.curTab].data = this.curList.concat(data.data);
-                // }
-
                 if (refresh) {
                     this.$store.commit("setListValue", {
                         tab: this.curTab,
