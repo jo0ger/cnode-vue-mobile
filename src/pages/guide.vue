@@ -11,7 +11,7 @@ export default {
     computed: {},
     mounted() {
         setTimeout(function () {
-            this.$router.push({
+            this.$router.replace({
                 name: "home",
                 query: {
                     tab: "all"

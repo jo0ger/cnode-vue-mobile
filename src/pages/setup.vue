@@ -2,7 +2,11 @@
     <div id="container">
         <main class="me-container">
             <mu-list>
-                <mu-list-item disabled title="通知与信息设置" describeText="总是中断"/>
+                <mu-list-item :title="user.loginname" :describeText="isLogin && ('积分：' + (user.score || 0)) || ''" :disableRipple="!isLogin">
+                  <mu-avatar :icon="!isLogin && 'face' || ''" :src="user.avatar" slot="leftAvatar"/>
+                  <mu-raised-button label="登录" class="loginBtn" v-if="!isLogin" @click="goLogin" fullWidth/>
+                  <mu-icon value="keyboard_arrow_right" slot="right" v-if="isLogin"></mu-icon>
+                </mu-list-item>
             </mu-list>
             <mu-divider />
             <mu-list>
@@ -31,7 +35,7 @@
             </mu-list>
             <mu-divider />
             <div class="logout">
-                <mu-raised-button label="退出登录" fullWidth primary class="logout-btn"/>
+                <mu-raised-button label="退出登录" @click="logout" v-if="user.loginname" fullWidth primary class="logout-btn"/>
             </div>
         </main>
     </div>
@@ -72,6 +76,14 @@ export default {
             summary: false
         }
     },
+    computed: {
+        user (){
+            return this.$store.getters.getUserInfo;
+        },
+        isLogin (){
+            return this.user.loginname != "";
+        }
+    },
     mounted() {
         let themes = this.$store.getters.getSetup.themes;
         Object.keys(themes).forEach((v, i) => {
@@ -82,6 +94,9 @@ export default {
         });
     },
     methods: {
+        goLogin (){
+
+        },
         handleToggle(key) {
             this[key] = !this[key]
         },
@@ -116,6 +131,34 @@ export default {
             this.$store.commit("setSetupValue", {
                 key: "themes",
                 value: themes
+            });
+        },
+        //退出
+        logout() {
+            let self = this;
+            //先移除locastorage里的用户信息
+            Object.keys(self.user).forEach(v => {
+                localStorage.removeItem(v);
+            });
+            self.$store.dispatch("clearUserInfo").then(() => {
+                this.$message({
+                    message: "退出成功",
+                    onClose() {
+                        if (self.$route.matched.some(record => record.meta.requiresAuth)) {
+                            //如果此时路由有登录权限控制，则退出后返回到首页
+                            self.$router.push({
+                                name: "index",
+                                query: {
+                                    tab: "all"
+                                }
+                            });
+                        }
+                        // else{
+                        //     //否则刷新当前页面
+                        //     window.location.reload();
+                        // }
+                    }
+                }).show();
             });
         }
     },

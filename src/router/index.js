@@ -59,18 +59,37 @@ const routes = [{
 const router = new VueRouter({
     mode: "history",
     base: __dirname,
-    routes: routes
+    routes: routes,
+    scrollBehavior(to, from, savedPosition) {
+        if (savedPosition) {
+            return savedPosition
+        } else {
+            return {
+                x: 0,
+                y: 0
+            }
+        }
+    }
 });
 
 router.beforeEach((to, from, next) => {
+    //如果要求登录验证
     if (to.matched.some(record => record.meta.auth)) {
-        console.log(from);
-        next({
-            name: "login",
-            query: {
-                redirect: encodeURIComponent(from.fullPath)
-            }
-        })
+        //如果from是首页，将curNav设置为from的name，方便返回的时候
+        if(from.matched.some(index => index.name === "index")){
+            sessionStorage.setItem("curNav", from.name);
+        }
+        if(this.a.app.$store.getters.getUserInfo.id){
+            next();
+        }else {
+            next({
+                name: "login",
+                query: {
+                    back: from,
+                    to: to
+                }
+            });
+        }
     } else {
         next();
     }

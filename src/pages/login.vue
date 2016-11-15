@@ -2,7 +2,7 @@
     <div id="container">
         <header class="login-title">
             <mu-appbar :title="title">
-                <mu-icon-button icon="keyboard_arrow_left" slot="left" @click="back"></mu-icon-button>
+                <mu-icon-button icon="keyboard_arrow_left" slot="left" @click="back" />
             </mu-appbar>
         </header>
         <main class="login-container">
@@ -28,15 +28,19 @@ export default {
     data() {
         return {
             title: "登录",
-            redirect: "",
+            back: "",
+            to: "",
             token: "",
             autoLogin: true
         };
     },
     computed: {},
     mounted() {
-        let red = this.$route.query.redirect || "";
-        this.redirect = red;
+        console.log(this.$route.query);
+        let back = this.$route.query.back || "",
+            to = this.$route.query.to || "";
+        this.back = back;
+        this.to = to;
     },
     methods: {
         login (){
@@ -51,7 +55,6 @@ export default {
             this.$http.post("https://cnodejs.org/api/v1/accesstoken", {
                 accesstoken: token
             }).then((res) => {
-                console.log(res);
                 let data = res.body;
                 if(!data || !data.success){
                     this.errorHandle();
@@ -83,15 +86,22 @@ export default {
                 self.$message({
                     message: "登录成功",
                     onClose() {
-                        this.back();
+                        let to = self.to;
+                        if(to.matched.some(red => red.name === "index")){
+                            sessionStorage.setItem("curNav", to.name);
+                        }
+                        if(to){
+                            self.$router.replace(to);
+                        }
                     }
                 }).show();
             });
         },
         back (){
-            let redirect = decodeURIComponent(this.redirect);
-            if(redirect){
-                this.$router.replace(redirect);
+            console.log(this.back);
+            let back = decodeURIComponent(this.back);
+            if(back){
+                this.$router.replace(back);
             }
         },
         errorHandle (){
