@@ -17,7 +17,7 @@
 import cvItem from "../components/item.vue"
 
 export default {
-    name: "topic-list",
+    name: "cvm-topic-list",
     data() {
         return {
             container: null,

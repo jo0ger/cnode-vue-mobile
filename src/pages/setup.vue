@@ -14,9 +14,6 @@
                 <mu-list-item disabledRipple @click="handleToggle('saveFlow')" title="省流模式">
                     <mu-switch v-model="saveFlow"  slot="right"/>
                 </mu-list-item>
-                <mu-list-item disabledRipple @click="handleToggle('summary')" title="显示摘要">
-                    <mu-switch v-model="summary" slot="right"/>
-                </mu-list-item>
             </mu-list>
             <mu-list>
                 <mu-sub-header>主题换肤</mu-sub-header>
@@ -55,7 +52,7 @@ import teal from '!raw!muse-ui/dist/theme-teal.css'
 import carbon from '!raw!muse-ui/dist/theme-carbon.css'
 
 export default {
-    name: "me",
+    name: "cvm-setup",
     data() {
         let themes = this.$store.getters.getSetup.themes;
         return {
@@ -78,8 +75,7 @@ export default {
                     use: themes.teal
                 }
             },
-            saveFlow: false,
-            summary: false
+            saveFlow: this.$store.getters.getSetup.saveFlow
         }
     },
     computed: {
@@ -122,6 +118,11 @@ export default {
         },
         handleToggle(key) {
             this[key] = !this[key]
+            this.$store.commit("setSetupValue", {
+                key: key,
+                value: this[key]
+            });
+            localStorage.setItem("saveFlow", this.saveFlow);
         },
         handleThemeSelect(key) {
             this.themes[this.theme].use = !this.themes[this.theme].use;

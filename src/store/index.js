@@ -40,8 +40,7 @@ const store = new Vuex.Store({
                 "teal": false,
                 "dark": false
             },
-            saveFlow: false,
-            summary: false,
+            saveFlow: localStorage.getItem("saveFlow") === "true" ? true : false
         }
     },
     getters: {

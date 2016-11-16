@@ -22,7 +22,7 @@
 import cvList from "../components/list.vue"
 
 export default {
-    name: "home",
+    name: "cvm-home",
     data() {
         return {
             curTab: "",
@@ -147,7 +147,9 @@ export default {
             this.fetch(false);
         },
         newTopic (){
-            console.log(111);
+            this.$router.push({
+                name: "newTopic"
+            })
         }
     },
     components: {

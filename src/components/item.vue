@@ -2,12 +2,13 @@
     <mu-list-item  class="topic-item" @click.stop.prevent="click" :disableRipple="!ripple">
         <h3 :class="['topic-title', getTypeClass(item.top, item.good, item.tab)]" :title="getArticleType(item.top, item.good, item.tab)" v-text="item.title"></h3>
         <div class="topic-main">
-            <mu-avatar class="topic-author-avatar" :src="item.author.avatar_url" @click.native.stop.prevent="avatarClick($event)"/>
+            <mu-avatar v-if="!saveFlow" class="topic-author-avatar" :src="item.author.avatar_url" @click.native.stop.prevent="avatarClick($event)"/>
             <div class="topic-content">
-                <p>
+                <p v-if="!saveFlow">
                     <span class="topic-author-name" v-text="item.author.loginname"></span>
                 </p>
                 <p>
+                    <span v-if="saveFlow" class="topic-author-name">{{item.author.loginname}}发布于</span>
                     <time class="topic-time">{{ item.create_at | getDateFromNow }}</time>
                     <section class="topic-count">
                         <span class="topic-comment"><i class="material-icons">question_answer</i>{{item.reply_count}}</span>
@@ -21,7 +22,12 @@
 
 <script>
 export default {
-    name: "topic-item",
+    name: "cvm-topic-item",
+    data (){
+        return {
+            saveFlow: this.$store.getters.getSetup.saveFlow
+        }
+    },
     props: {
         item: {
             require: true,
@@ -138,7 +144,7 @@ export default {
 .topic-content > p:last-child{
 }
 .topic-content span, .topic-content time{
-    color: rgba(0, 0, 0, 0.4);
+    color: rgba(0, 0, 0, 0.7);
 }
 .topic-count{
     position: relative;

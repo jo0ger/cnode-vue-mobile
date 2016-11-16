@@ -4,7 +4,7 @@
 
 <script>
 export default {
-    name: "guide",
+    name: "cvm-guide",
     data() {
         return {}
     },

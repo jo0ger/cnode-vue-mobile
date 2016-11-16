@@ -4,7 +4,7 @@
 
 <script>
 export default {
-    name: "message",
+    name: "cvm-message",
     data() {
         return {}
     },

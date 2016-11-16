@@ -8,7 +8,7 @@
                 <mu-bottom-nav-item value="message" title="消息" icon="message"/>
                 <mu-bottom-nav-item value="setup" :title="title[curTitle].setup" icon="supervisor_account"/>
             </mu-bottom-nav>
-            <mu-badge :content="user.message" class="message-badge" circle secondary v-if="user.message > 0"></mu-badge>
+            <mu-badge :content="user.message > 99 && '99+' || user.message" class="message-badge" circle color="red" v-if="user.message > 0"></mu-badge>
         </footer>
     </div>
 </template>
@@ -17,7 +17,7 @@
 "use strict";
 
 export default {
-    name: "index",
+    name: "cvm-index",
     data() {
         return {
             curNav: sessionStorage.getItem("curNav") || 'home',

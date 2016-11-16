@@ -1,10 +1,5 @@
 <template lang="html">
-    <div id="container">
-        <header class="login-title">
-            <mu-appbar :title="title">
-                <mu-icon-button icon="keyboard_arrow_left" slot="left" @click="goBack" />
-            </mu-appbar>
-        </header>
+    <cvm-container :title="title" :goBack="goBack">
         <main class="login-container">
             <mu-content-block class="login-content">
                 <mu-text-field label="Token令牌"
@@ -18,13 +13,16 @@
                 <mu-raised-button label="扫码登录" fullWidth backgroundColor="#a4c639" class="login-btn"/>
             </mu-content-block>
         </main>
-    </div>
+    </cvm-container>
+
 </template>
 
 <script>
 "use strict";
+import cvmContainer from "../components/container.vue";
+
 export default {
-    name: "login",
+    name: "cvm-login",
     data() {
         return {
             title: "登录",
@@ -106,6 +104,9 @@ export default {
                 message: "登录出错"
             }).show();
         }
+    },
+    components: {
+        cvmContainer
     }
 }
 </script>
