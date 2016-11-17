@@ -16,9 +16,32 @@ export default {
         return {
             show: false,
             message: "操作成功",
-            icon: "done",
+            type: "success",
             duration: 2500,
             onClose: function (){}
+        }
+    },
+    computed: {
+        icon (){
+            let icon = "";
+            switch (this.type) {
+                case "success":
+                    icon = "done";
+                    break;
+                case "error":
+                    icon = "close";
+                    break;
+                case "warn":
+                    icon = "warning";
+                    break;
+                case "info":
+                    icon = "info";
+                    break;
+                default:
+                    icon = "";
+                    break;
+            }
+            return icon;
         }
     },
     mounted() {
@@ -61,6 +84,7 @@ export default {
     max-width: 80%;
     text-align: center;
     transition: all .25s linear;
+    z-index: 20141224;
 }
 .cvm-message-fade-enter,.cvm-message-fade-leave-active{
     opacity:0;

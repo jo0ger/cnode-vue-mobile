@@ -12,7 +12,7 @@
         <main id="main-content">
             <cv-list class="topic-list" :list="curList" :refreshing="refreshing" :loadmoring="loadmoring" :refresh="refresh" :loadMore="loadMore"></cv-list>
         </main>
-        <mu-float-button icon="add" id="new-topic" @click="newTopic" mini/>
+        <mu-float-button icon="mode_edit" id="new-topic" @click="newTopic" mini/>
     </section>
 </template>
 

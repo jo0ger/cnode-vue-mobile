@@ -19,7 +19,7 @@
 
 <script>
 "use strict";
-import cvmContainer from "../components/container.vue";
+import cvmContainer from "../components/appbar-container.vue";
 
 export default {
     name: "cvm-login",
@@ -40,7 +40,8 @@ export default {
             let token = this.token.trim();
             if(!token){
                 this.$message({
-                    message: "请输入token"
+                    message: "请输入token",
+                    type: "warn"
                 }).show();
                 return;
             }
@@ -101,7 +102,8 @@ export default {
         },
         errorHandle (){
             this.$message({
-                message: "登录出错"
+                message: "登录出错",
+                type: "error"
             }).show();
         }
     },

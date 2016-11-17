@@ -52,7 +52,7 @@ exports.dateFromNow = function(ms) {
         } else if (time >= 24 * 3600 && time < 30 * 24 * 3600) {
             result = parseInt(time / 3600.0 / 24.0) + "天前";
         } else if (time >= 30 * 24 * 3600 && time < 12 * 30 * 24 * 3600) {
-            result = parseInt(time / 3600.0 / 24.0 / 30) + "月前";
+            result = parseInt(time / 3600.0 / 24.0 / 30) + "个月前";
         } else if (time >= 12 * 30 * 24 * 3600) {
             result = parseInt(time / 3600.0 / 24.0 / 30.0 / 12.0) + "年前";
         } else {

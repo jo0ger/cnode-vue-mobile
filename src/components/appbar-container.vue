@@ -2,22 +2,33 @@
     <div id="container">
         <header class="header">
             <mu-appbar :title="title">
-                <mu-icon-button icon="keyboard_arrow_left" slot="left" @click="goBackDefault" />
+                <mu-icon-button :icon="icon" slot="left" @click="goBack" />
             </mu-appbar>
         </header>
-        <main class="main">
+        <main class="main" :style="mainStyle">
             <slot></slot>
         </main>
+        <footer class="footer">
+            <mu-divider />
+            <slot name="footer"></slot>
+        </footer>
     </div>
 </template>
 
 <script>
+"user strict";
+
 export default {
-    name: "cvm-container",
+    name: "cvm-appbar-container",
     props: {
         title: {
             require: false,
             default: "",
+            type: String
+        },
+        icon: {
+            require: false,
+            default: "keyboard_arrow_left",
             type: String
         },
         goBack: {
@@ -26,21 +37,33 @@ export default {
             type: Function
         }
     },
-    methods: {
-        goBackDefault (){
-            this.goBack.call(this);
-            this.$router.back();
+    computed: {
+        mainStyle (){
+            return {
+                bottom: !this.$slots.footer && '0' || "48px"
+            };
+        }
+    },
+    mounted (){
+        if(!this.$slots.footer){
+
         }
     }
+
 }
 </script>
 <style lang="css" scoped>
 .main{
     width: 100%;
     position: absolute;
-    bottom: 56px;
     top: 56px;
     overflow: scroll;
+}
+.footer{
+    width: 100%;
+    height: 48px;
+    position: absolute;
+    bottom: 0;
 }
 @media (min-width: 480px){
     .main{

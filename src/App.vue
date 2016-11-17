@@ -6,11 +6,12 @@
 
 <script>
 "use strict";
-
+import "./assets/css/normalize.css";
+import "./assets/css/github-markdown.css";
 import "./assets/css/custom.css";
 
 export default {
-  name: 'app',
+  name: 'cvm-app',
   data (){
       return {
 
