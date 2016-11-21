@@ -2,9 +2,9 @@
 
 import Vue from "vue"
 import VueRouter from "vue-router"
+import store from '../store'
 
 Vue.use(VueRouter);
-
 const routes = [{
     path: "/",
     name: "guide",
@@ -85,7 +85,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
     //如果要求登录验证
     if (to.matched.some(record => record.meta.auth)) {
-        if (this.a.app.$store.getters.getUserInfo.id) {
+        if (store.getters.getUserInfo.id) {
             next();
         } else {
             //如果from是首页，将curNav设置为from的name，方便返回的时候
