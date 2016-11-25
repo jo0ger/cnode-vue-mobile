@@ -31,6 +31,7 @@
             <cvm-appbar-container icon="close" :title="'评论 ' + topic.reply_count" :goBack="toggleCommentPanel">
                 <cvm-comment :replies="topic.replies"></cvm-comment>
                 <div class="topic-reply-container" slot="footer" v-if="user.id">
+                    <mu-divider />
                     <div class="topic-reply">
                         <mu-text-field hintText="支持markdown语法" v-model="replyContent" id="reply" icon="comment" fullWidth multiLine/>
                     </div>

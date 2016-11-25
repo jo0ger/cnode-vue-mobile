@@ -8,8 +8,7 @@
         <main class="main" :style="mainStyle">
             <slot></slot>
         </main>
-        <footer class="footer">
-            <mu-divider />
+        <footer class="footer" :style="footerStyle">
             <slot name="footer"></slot>
         </footer>
     </div>
@@ -41,6 +40,11 @@ export default {
         mainStyle (){
             return {
                 bottom: !this.$slots.footer && '0' || "48px"
+            };
+        },
+        footerStyle() {
+            return {
+                height: !this.$slots.footer && "0" || "48px"
             };
         }
     },
